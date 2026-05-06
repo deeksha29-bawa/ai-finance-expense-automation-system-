@@ -1,0 +1,160 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "1grYlFMafxxywB6oHXa2id31IVpkHgH7EtW0qYKnPKw8",
+          "mode": "list",
+          "cachedResultName": "expenses track",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1grYlFMafxxywB6oHXa2id31IVpkHgH7EtW0qYKnPKw8/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 988039651,
+          "mode": "list",
+          "cachedResultName": "Form Responses 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1grYlFMafxxywB6oHXa2id31IVpkHgH7EtW0qYKnPKw8/edit#gid=988039651"
+        },
+        "event": "rowAdded",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "3eb94d8b-dec9-456b-825a-d6370b1a6079",
+      "name": "Google Sheets Trigger",
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "T7N3Ort3jdzvi5Y4",
+          "name": "Google Sheets Trigger OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "5d1c2d6a-e296-4c81-94d7-4636b22902a2",
+              "name": "employee name",
+              "value": "={{$json['employee name ']}}",
+              "type": "string"
+            },
+            {
+              "id": "096fc40b-b324-46cb-ae6c-7b2492d109ec",
+              "name": "department",
+              "value": "= {{$json['department']}}",
+              "type": "string"
+            },
+            {
+              "id": "7aa9cb5f-2ce3-4ef5-9ffb-86b8f7416e20",
+              "name": "expense date",
+              "value": "={{ $json.Timestamp }}",
+              "type": "string"
+            },
+            {
+              "id": "5c41e352-3c54-4fed-a79d-300085f722bb",
+              "name": "category",
+              "value": "= {{$json['category']}}",
+              "type": "string"
+            },
+            {
+              "id": "a0eeaff5-d441-42eb-a867-ad9ed72c1aa2",
+              "name": "amount",
+              "value": "= ₹{{$json['amount']}}",
+              "type": "string"
+            },
+            {
+              "id": "d89c2c94-edc5-40e3-b73e-d7734c361e27",
+              "name": "Remarks",
+              "value": "={{$json.Remarks}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        176,
+        0
+      ],
+      "id": "3e8d7a68-6625-40e2-b94a-39d54656dc65",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "sendTo": "deekshha925@gmail.com",
+        "subject": "New Expense Submitted",
+        "emailType": "text",
+        "message": "=A new expense has been submitted.\n\n\nEmployee: {{$json['employee name']}}\nDepartment: {{$json['department']}}\nAmount: {{$json['amount']}}\nCategory: {{$json['category']}}\nDate: {{$json['expense date']}}\nRemarks: {{$json.Remarks}}\n\n\n\nRegards,\nExpense Automation System\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        352,
+        0
+      ],
+      "id": "dd935b83-6c26-4e97-82e4-78e43e23ca66",
+      "name": "Send a message",
+      "webhookId": "0982e107-81d9-4f47-b53d-64c7f3340cb9",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "3W0VGHBETe3s00Xx",
+          "name": "Gmail OAuth2 API"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Google Sheets Trigger": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "66d3304f-690f-4370-b69d-fcda01bd69e4",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "ecc3563562372223b830a0d8fce25587e52972d4f1b54b674c0c7e0027e06f79"
+  },
+  "id": "nt9UtlyqBEie7Lqf",
+  "tags": []
+}
